@@ -1,0 +1,23 @@
+.container {
+    margin-left: 20rem !important;
+    /* mismo ancho que sidebar */
+    padding: 20px;
+    margin-right: 0px;
+    
+    max-width: calc(100% - 20rem);
+    box-sizing: border-box;
+}
+body {
+    overflow-x: hidden;
+}
+.card-reducida {
+    max-width: 50rem;
+}
+
+.card-reducida .card-body {
+    padding: 10px;
+}
+.card {
+    width: 100%;
+    overflow-x: auto;
+}

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Panel del Propietario</title>
+    <link rel="stylesheet" href="propietario.css" />
+    <link rel="stylesheet" href="/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+
+<body class="bg-light">
+
+
+    <!-- BARRA DE NAVEGACION PRINCIPAL -->
+    <header>
+        <div class="left">
+            <div class="menu-container">
+                <div class="menu" id="menu">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+
+            <div class="brand">
+                <img src="/condominio.avif" alt="icon-udemy" class="logo" />
+                <span class="name">Gestión de condominio</span>
+            </div>
+        </div>
+
+        <!-- Botón de cerrar sesión -->
+        <div class="logout">
+            <button class="btn  btn-sm" style="background-color: white; font-size: 15px; font-weight: 700;"
+                onclick="logout()">Cerrar sesión </button>
+        </div>
+    </header>
+
+    <!-- Menú lateral para los operadores -->
+    <div class="sidebar" id="sidebar">
+        <nav>
+            <ul>
+                <li>
+                    <a href="/index.html" class="selected">
+                        <img src="/icons/home.svg" alt="" />
+                        <span>Inicio</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item" id="sidebar-pagos">
+                    <a href="pagos.html">
+                        <img src="/icons/pago.svg" alt="" />
+                        <span>Pagos</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item" id="sidebar-cuentas">
+                    <a href="cuentas.html">
+                        <img src="/icons/cuentas.svg" alt="" />
+                        <span>Cuentas</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="calendario.html">
+                        <img src="/icons/calendario.svg" alt="" />
+                        <span>Calendario</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="avisos.html">
+                        <img src="/icons/avisos.svg" alt="" />
+                        <span>Avisos</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+
+    <div class="container py-4" style="margin-top: 4rem;">
+
+        <h2 class="mb-4">🧍‍♂️ Panel del Propietario</h2>
+
+       <!-- CENTRO DE AVISOS -->
+        <div class="card mb-4 card-compact card-reducida">
+            <div class="card-header bg-warning">📢 Centro de avisos</div>
+            <div class="card-body">
+                <div class="mb-2">
+                    <strong>🔔 15/07:</strong> Corte de agua programado de 10:00 a 13:00 hrs.
+                </div>
+                <div class="mb-2">
+                    <strong>📅 20/07:</strong> Evento comunitario - Jornada de reciclaje en el patio central.
+                </div>
+                <div class="mb-2">
+                    <strong>🛠️ 25/07:</strong> Mantenimiento preventivo del ascensor Torre A.
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Script para la Iteraccion del Menu Desplegable -->
+    <script src="/script.js"></script>
+
+</body>
+
+</html>

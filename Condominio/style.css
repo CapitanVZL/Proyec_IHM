@@ -1,0 +1,204 @@
+/*COLORES*/
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
+
+:root {
+    --background-color: #f4f6f8;
+    --text-title-color: #053d4E;
+    --text-color: #323638;
+    --icon-color: #32363B;
+    --icon-menu-color: #707780;
+    --menu-color: #707780;
+
+    --text-selected-color: #355CC0;
+    --background-selected: #EBF0FF;
+    --background-hover: #F7F9FA;
+
+    --border-color: #E6E9ED;
+
+}
+
+/*Estilos globales*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Nunito Sans", sans-serif;
+}
+
+/*Body*/
+body {
+    width: 100%;
+    height: 100vh;
+    /* background-color: #f8f9fa; */
+    background-color: #F4F6F8 !important;
+    font-family: 'Roboto', sans-serif !important;
+}
+
+/*Header*/
+header {
+    background-color: #323638 !important;
+    z-index: 200;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.45rem 2rem 0.45rem 1.27rem;
+    border-bottom: 1px solid var (--border-color);
+    position: fixed;
+    top: 0;
+    left: 0;
+
+}
+
+/*Seccion izquierda*/
+.left {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.4rem;
+
+}
+
+/*Menu*/
+.menu-container{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+}
+
+.menu{
+    width: 1.5rem;
+    height: 37%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between
+}
+
+.menu div{
+    width: 100%;
+    height: 0.15rem;
+    background-color:  var(--menu-color);
+    transition: all 0.2s ease;
+}
+
+
+/*Brand*/
+.brand{
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.6rem;
+
+}
+
+.brand .name {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: white;
+    font-family:initial;
+}
+
+
+/* :)  TODO LOS ESTILOS DEL SIDEBAR   :( */
+
+.sidebar{
+    margin-top: 4rem;
+    width: 4rem;
+    height: 100%;
+    position: fixed;
+    top:0;
+    left: 0;
+    z-index: 100;
+    padding: 1.1rem 0;
+    border-right: 1px solid var(--border-color);
+    overflow-y: auto ;
+    background-color: var(--background-color);
+    transition: width 0.5s ease;
+}
+
+
+.sidebar.menu-toggle{
+    width: 17.75rem;
+}
+
+
+.sidebar a{
+    display: flex;
+    align-items: center;
+    gap: 1.3rem;
+    padding: 0.9rem 0.7rem;
+    text-decoration: none;
+    margin:  0.5rem;
+    border-radius: 0.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    color: var(--text-color);
+}
+
+.sidebar a:hover{
+    background-color: var(--background-hover);
+}
+
+
+.sidebar ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.sidebar a.selected{
+    color: var(--text-selected-color);
+    background-color: var(--background-selected);
+}
+
+.sidebar img{
+    width: 1.6rem;
+}
+
+
+/*TODO LO DE LOS LOGOTIPOS*/
+.brand .logo{
+    margin-left: -10px;
+    width: 40px;
+    border-radius: 50%;
+    height: auto;
+}
+
+
+
+.card-title {
+    font-weight: bold;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+
+
+/* Wrapper general con espacio a la izquierda */
+.wrapper {
+    margin-left: 4rem;
+    /* mismo ancho que sidebar */
+    padding: 20px;
+}
+
+/* Asegura que el main tenga ancho completo dentro del wrapper */
+main {
+    max-width: 100%;
+}
+
+.wrapper .mb-4{
+    color: black;
+    font-weight: 700;
+}
+
+.logout{
+    align-items: center;
+    align-content: center;
+}

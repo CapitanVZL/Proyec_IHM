@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>📑 Estados de Cuenta</title>
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+
+<body class="bg-light">
+    <!-- BARRA DE NAVEGACION PRINCIPAL -->
+    <header>
+        <div class="left">
+            <div class="menu-container">
+                <div class="menu" id="menu">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+
+            <div class="brand">
+                <img src="/condominio.avif" alt="icon-udemy" class="logo" />
+                <span class="name">Gestión de condominio</span>
+            </div>
+        </div>
+
+        <!-- Botón de cerrar sesión -->
+        <div class="logout">
+            <button class="btn  btn-sm" style="background-color: white; font-size: 15px; font-weight: 700;"
+                onclick="logout()">Cerrar sesión </button>
+        </div>
+    </header>
+
+    <!--MENU LATERAL SIDEBAR -->
+    <div class="sidebar" id="sidebar">
+        <nav>
+            <ul>
+                <li>
+                    <a href="/index.html" class="selected">
+                        <img src="/icons/home.svg" alt="" />
+                        <span>Inicio</span>
+                    </a>
+                </li>
+                <li class="sidebar-item" id="sidebar-pagos">
+                    <a href="pagos.html">
+                        <img src="/icons/pago.svg" alt="" />
+                        <span>Pagos</span>
+                    </a>
+                </li>
+                <li class="sidebar-item" id="sidebar-cuentas">
+                    <a href="EstadoCuenta.html">
+                        <img src="/icons/cuentas.svg" alt="" />
+                        <span>Cuentas</span>
+                    </a>
+                </li>
+                <li class="sidebar-item" id="sidebar-propietarios">
+                    <a href="propietario.html">
+                        <img src="/icons/Propietario.svg" alt="" />
+                        <span>Propietarios</span>
+                    </a>
+                </li>
+                <li class="sidebar-item" id="sidebar-mantenimiento">
+                    <a href="mantenimiento.html">
+                        <img src="/icons/tools.svg" alt="" />
+                        <span>Mantenimiento</span>
+                    </a>
+                </li>
+                <li class="sidebar-item" id="sidebar-calendario">
+                    <a href="calendario.html">
+                        <img src="/icons/calendario.svg" alt="" />
+                        <span>Calendario</span>
+                    </a>
+                </li>
+                <li class="sidebar-item" id="sidebar-avisos">
+                    <a href="avisos.html">
+                        <img src="/icons/avisos.svg" alt="" />
+                        <span>Avisos</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+
+    <div class="container py-5" style="margin-top: 50px;"">
+        <h2 class=" mb-4"> 
+            <img src="/icons/cuentas.svg" alt="icono cuenta" style="width:36px; height:36px; margin-right:8px;">
+            Estados de Cuenta por Propietario
+        </h2>
+
+        <!-- Tabla de Estados de Cuenta -->
+        <div class="card card-compact card-reducida">
+            <div class="card-header bg-secondary text-white">Estados de Cuenta por Propietario</div>
+            <div class="card-body">
+                <table class="table table-bordered text-center align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Propietario</th>
+                            <th>Depto</th>
+                            <th>Mes Actual</th>
+                            <th>Estado</th>
+                            <th>Deuda Acumulada</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Juan Pérez</td>
+                            <td>301</td>
+                            <td>Julio 2025</td>
+                            <td><span class="badge bg-danger">Pendiente</span></td>
+                            <td>$240.000</td>
+                            <td><a href="#" class="btn btn-sm btn-outline-primary">Ver detalle</a></td>
+                        </tr>
+                        <tr>
+                            <td>Marcela Soto</td>
+                            <td>502</td>
+                            <td>Julio 2025</td>
+                            <td><span class="badge bg-success">Pagado</span></td>
+                            <td>$0</td>
+                            <td><a href="#" class="btn btn-sm btn-outline-primary">Ver detalle</a></td>
+                        </tr>
+                        <tr>
+                            <td>Luis Gutiérrez</td>
+                            <td>104</td>
+                            <td>Julio 2025</td>
+                            <td><span class="badge bg-warning text-dark">Parcial</span></td>
+                            <td>$60.000</td>
+                            <td><a href="#" class="btn btn-sm btn-outline-primary">Ver detalle</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Modal Detalle de Estado de Cuenta -->
+    <div class="modal fade" id="modalDetalleCuenta" tabindex="-1" aria-labelledby="modalDetalleCuentaLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content rounded-4 shadow">
+                <div class="modal-header bg-secondary text-white">
+                    <h5 class="modal-title" id="modalDetalleCuentaLabel">Detalle de Estado de Cuenta</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Aquí se cargará el contenido dinámico -->
+                    <div id="contenidoDetalleCuenta">
+                        <p>Cargando...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos simulados de detalle (puedes reemplazarlos con datos reales desde backend o JS)
+        const detallesPorPropietario = {
+            "Juan Pérez": [
+                { fecha: "01/07/2025", descripcion: "Cuota Julio", monto: "$120.000", estado: "Pendiente" },
+                { fecha: "01/06/2025", descripcion: "Cuota Junio", monto: "$120.000", estado: "Pendiente" }
+            ],
+            "Marcela Soto": [
+                { fecha: "02/07/2025", descripcion: "Cuota Julio", monto: "$120.000", estado: "Pagado" }
+            ],
+            "Luis Gutiérrez": [
+                { fecha: "05/07/2025", descripcion: "Cuota Julio", monto: "$60.000", estado: "Parcial" },
+                { fecha: "05/06/2025", descripcion: "Cuota Junio", monto: "$60.000", estado: "Pagado" }
+            ]
+        };
+
+        document.querySelectorAll('.btn-outline-primary').forEach(boton => {
+            boton.addEventListener('click', function () {
+                const fila = this.closest('tr');
+                const propietario = fila.children[0].textContent.trim();
+                const detalles = detallesPorPropietario[propietario] || [];
+
+                let html = `<h6>${propietario}</h6><table class="table table-striped mt-3">
+                    <thead><tr><th>Fecha</th><th>Descripción</th><th>Monto</th><th>Estado</th></tr></thead><tbody>`;
+
+                detalles.forEach(detalle => {
+                    html += `<tr>
+                  <td>${detalle.fecha}</td>
+                  <td>${detalle.descripcion}</td>
+                  <td>${detalle.monto}</td>
+                  <td><span class="badge bg-${estadoColor(detalle.estado)}">${detalle.estado}</span></td>
+                </tr>`;
+                });
+
+                html += '</tbody></table>';
+                document.getElementById('contenidoDetalleCuenta').innerHTML = html;
+
+                const modal = new bootstrap.Modal(document.getElementById('modalDetalleCuenta'));
+                modal.show();
+            });
+        });
+
+        function estadoColor(estado) {
+            switch (estado) {
+                case 'Pagado': return 'success';
+                case 'Pendiente': return 'danger';
+                case 'Parcial': return 'warning text-dark';
+                default: return 'secondary';
+            }
+        }
+    </script>
+
+    <!-- Script para la Iteraccion del Menu Desplegable -->
+    <script src="/script.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+
+</body>
+
+</html>

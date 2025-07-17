@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>💰 Gestión de Pagos</title>
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="/style.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+    <!-- BARRA DE NAVEGACION PRINCIPAL -->
+    <header>
+        <div class="left">
+            <div class="menu-container">
+                <div class="menu" id="menu">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+
+            <div class="brand">
+                <img src="/condominio.avif" alt="icon-udemy" class="logo" />
+                <span class="name">Gestión de condominio</span>
+            </div>
+        </div>
+
+        <!-- Botón de cerrar sesión -->
+        <div class="logout">
+            <button class="btn  btn-sm" style="background-color: white; font-size: 15px; font-weight: 700;"
+                onclick="logout()">Cerrar sesión </button>
+        </div>
+    </header>
+
+    <!--MENU LATERAL SIDEBAR -->
+    <div class="sidebar" id="sidebar">
+        <nav>
+            <ul>
+                <li>
+                    <a href="/index.html" class="selected">
+                        <img src="/icons/home.svg" alt="" />
+                        <span>Inicio</span>
+                    </a>
+                </li>
+                <li class="sidebar-item" id="sidebar-pagos">
+                    <a href="pagos.html">
+                        <img src="/icons/pago.svg" alt="" />
+                        <span>Pagos</span>
+                    </a>
+                </li>
+                <li class="sidebar-item" id="sidebar-cuentas">
+                    <a href="EstadoCuenta.html">
+                        <img src="/icons/cuentas.svg" alt="" />
+                        <span>Cuentas</span>
+                    </a>
+                </li>
+                <li class="sidebar-item" id="sidebar-propietarios">
+                    <a href="propietario.html">
+                        <img src="/icons/Propietario.svg" alt="" />
+                        <span>Propietarios</span>
+                    </a>
+                </li>
+                <li class="sidebar-item" id="sidebar-mantenimiento">
+                    <a href="mantenimiento.html">
+                        <img src="/icons/tools.svg" alt="" />
+                        <span>Mantenimiento</span>
+                    </a>
+                </li>
+                <li class="sidebar-item" id="sidebar-calendario">
+                    <a href="calendario.html">
+                        <img src="/icons/calendario.svg" alt="" />
+                        <span>Calendario</span>
+                    </a>
+                </li>
+                <li class="sidebar-item" id="sidebar-avisos">
+                    <a href="avisos.html">
+                        <img src="/icons/avisos.svg" alt="" />
+                        <span>Avisos</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="container py-5" style="margin-top: 50px;">
+        <h2 class="mb-4">
+            <img src="/icons/pago.svg" alt="icono cuenta" style="width:36px; height:36px; margin-right:8px;">
+            Gestión de Pagos de Propietarios
+        </h2>
+
+        <!-- Registro de pago -->
+        <form id="form-pago" class="card-compact card-reducida" style="margin-bottom: 10px;">
+            <div class="row g-3 align-items-center">
+                <div class="col-md-4 card-compact card-reducida">
+                    <label class="form-label">Propietario</label>
+                    <input type="text" id="input-propietario" class="form-control"
+                        placeholder="Ej: Juan Pérez - Dpto 301" required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Fecha de pago</label>
+                    <input type="date" id="input-fecha" class="form-control" required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Monto</label>
+                    <input type="number" id="input-monto" class="form-control" placeholder="$" required>
+                </div>
+                <div class="col-md-2 d-grid">
+                    <button type="submit" class="btn btn-success mt-4">Registrar</button>
+                </div>
+            </div>
+        </form>
+
+
+        <!-- Tabla de pagos pendientes -->
+        <div class="card mb-4 card-compact card-reducida">
+            <div class="card-header bg-white text-black">📑 Cuentas por Cobrar</div>
+            <div class="card-body bg bg-secondary">
+                <table class="table table-bordered table-hover text-center">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Propietario</th>
+                            <th>Depto</th>
+                            <th>Mes</th>
+                            <th>Monto</th>
+                            <th>Estado</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <!-- CUERPO DE LA TABLA CUENTAS POR COBRAR -->
+                    <tbody id="tabla-cobros">
+                        <tr data-propietario="Juan Pérez" data-depto="301" data-mes="Julio 2025" data-monto="120000">
+                            <td>Juan Pérez</td>
+                            <td>301</td>
+                            <td>Julio 2025</td>
+                            <td>$120.000</td>
+                            <td><span class="badge bg-danger">Pendiente</span></td>
+                            <td><button class="btn btn-sm btn-primary btn-pagar">Pagar</button></td>
+                        </tr>
+                        <tr data-propietario="Marcela Soto" data-depto="502" data-mes="Julio 2025" data-monto="120000">
+                            <td>Marcela Soto</td>
+                            <td>502</td>
+                            <td>Julio 2025</td>
+                            <td>$120.000</td>
+                            <td><span class="badge bg-success">Pagado</span></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+
+
+                </table>
+            </div>
+        </div>
+
+        <!-- Historial de pagos -->
+        <div class="card mb-4 bg-secondary card-reducida">
+            <div class="card-header bg-white text-black">📋 Historial de Pagos Recientes</div>
+            <div class="card-body">
+                <ul class="list-group">
+                    <li class="list-group-item">03/07/2025 - Juan Pérez - $120.000</li>
+                    <li class="list-group-item">02/07/2025 - Marcela Soto - $120.000</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Script para la Iteraccion del Menu Desplegable -->
+    <script src="/script.js"></script>
+
+    <script>
+        const tablaCobros = document.getElementById('tabla-cobros');
+        const formPago = document.getElementById('form-pago');
+        const inputPropietario = document.getElementById('input-propietario');
+        const inputFecha = document.getElementById('input-fecha');
+        const inputMonto = document.getElementById('input-monto');
+        const historial = document.querySelector('.list-group');
+
+        let filaSeleccionada = null;
+
+        // Evento para cargar datos al formulario al hacer clic en "Pagar"
+        tablaCobros.addEventListener('click', function (e) {
+            if (e.target.classList.contains('btn-pagar')) {
+                const fila = e.target.closest('tr');
+                const propietario = fila.dataset.propietario;
+                const depto = fila.dataset.depto;
+
+                filaSeleccionada = fila;
+
+                inputPropietario.value = `${propietario} - Dpto ${depto}`;
+                inputFecha.valueAsDate = new Date();  // Fecha actual
+                inputMonto.value = '';
+            }
+        });
+
+        // Evento al enviar el formulario de pago
+        formPago.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const montoIngresado = parseInt(inputMonto.value);
+            const fecha = inputFecha.value;
+            const propietarioTexto = inputPropietario.value;
+
+            if (!filaSeleccionada) {
+                alert("Debes seleccionar un pago pendiente desde la tabla.");
+                return;
+            }
+
+            const montoOriginal = parseInt(filaSeleccionada.dataset.monto);
+            const estadoCelda = filaSeleccionada.children[4]; // Estado
+            const montoCelda = filaSeleccionada.children[3];  // Monto
+
+            if (montoIngresado >= montoOriginal) {
+                estadoCelda.innerHTML = '<span class="badge bg-success">Pagado</span>';
+                montoCelda.textContent = `$0`;
+                filaSeleccionada.dataset.monto = 0;
+
+                // Eliminar botón "Pagar"
+                filaSeleccionada.children[5].innerHTML = '';
+            } else {
+                const nuevoSaldo = montoOriginal - montoIngresado;
+                estadoCelda.innerHTML = '<span class="badge bg-warning">Parcial</span>';
+                montoCelda.textContent = `$${nuevoSaldo.toLocaleString()}`;
+                filaSeleccionada.dataset.monto = nuevoSaldo;
+            }
+
+            // Agregar al historial
+            const item = document.createElement('li');
+            item.classList.add('list-group-item');
+            item.textContent = `${fecha} - ${propietarioTexto} - $${montoIngresado.toLocaleString()}`;
+            historial.prepend(item);
+
+            // Limpiar
+            formPago.reset();
+            filaSeleccionada = null;
+        });
+    </script>
+
+
+
+</body>
+
+</html>

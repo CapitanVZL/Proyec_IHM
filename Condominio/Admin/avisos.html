@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>📢 Centro de Avisos</title>
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="/style.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+
+<body class="bg-light">
+
+    <!-- BARRA DE NAVEGACION PRINCIPAL -->
+    <header>
+        <div class="left">
+            <div class="menu-container">
+                <div class="menu" id="menu">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+
+            <div class="brand">
+                <img src="/condominio.avif" alt="icon-udemy" class="logo" />
+                <span class="name">Gestión de condominio</span>
+            </div>
+        </div>
+
+        <!-- Botón de cerrar sesión -->
+        <div class="logout">
+            <button class="btn  btn-sm" style="background-color: white; font-size: 15px; font-weight: 700;"
+                onclick="logout()">Cerrar sesión </button>
+        </div>
+    </header>
+
+    <!--MENU LATERAL SIDEBAR -->
+    <div class="sidebar" id="sidebar">
+        <nav>
+            <ul>
+                <li>
+                    <a href="/index.html" class="selected">
+                        <img src="/icons/home.svg" alt="" />
+                        <span>Inicio</span>
+                    </a>
+                </li>
+                <li class="sidebar-item" id="sidebar-pagos">
+                    <a href="pagos.html">
+                        <img src="/icons/pago.svg" alt="" />
+                        <span>Pagos</span>
+                    </a>
+                </li>
+                <li class="sidebar-item" id="sidebar-cuentas">
+                    <a href="EstadoCuenta.html">
+                        <img src="/icons/cuentas.svg" alt="" />
+                        <span>Cuentas</span>
+                    </a>
+                </li>
+                <li class="sidebar-item" id="sidebar-propietarios">
+                    <a href="propietario.html">
+                        <img src="/icons/Propietario.svg" alt="" />
+                        <span>Propietarios</span>
+                    </a>
+                </li>
+                <li class="sidebar-item" id="sidebar-mantenimiento">
+                    <a href="mantenimiento.html">
+                        <img src="/icons/tools.svg" alt="" />
+                        <span>Mantenimiento</span>
+                    </a>
+                </li>
+                <li class="sidebar-item" id="sidebar-calendario">
+                    <a href="calendario.html">
+                        <img src="/icons/calendario.svg" alt="" />
+                        <span>Calendario</span>
+                    </a>
+                </li>
+                <li class="sidebar-item" id="sidebar-avisos">
+                    <a href="avisos.html">
+                        <img src="/icons/avisos.svg" alt="" />
+                        <span>Avisos</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="container py-4" style="margin-top: 50px;">
+        <h2>
+            <img src="/icons/avisos.svg" alt="icono cuenta" style="width:36px; height:36px; margin-right:8px;">
+            Publicación de Avisos Generales
+        </h2>
+        <!-- Formulario de publicación de avisos -->
+        <div class="card mb-4 bg-secondary card-compact card-reducida">
+            <div class="card-header bg-white text-black">Registrar nuevo aviso</div>
+            <div class="card-body">
+                <form class="my-4" id="form-aviso">
+                    <input type="text" class="form-control mb-2" placeholder="Título del aviso" id="titulo-aviso"
+                        required />
+                    <textarea class="form-control mb-2" rows="3" placeholder="Contenido del aviso" id="contenido-aviso"
+                        required></textarea>
+                    <button type="submit" class="btn btn-primary">Publicar Aviso</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Centro de avisos dinámico -->
+        <div class="card mb-4 card-compact card-reducida">
+            <div class="card-header bg-warning">📢 Centro de avisos</div>
+            <div class="card-body" id="avisos-lista">
+                
+            </div>
+        </div>
+
+    </div>
+    </div>
+
+    <!-- Script para la Iteraccion del Menu Desplegable -->
+    <script src="/script.js"></script>
+
+    <script>
+document.getElementById("form-aviso").addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const titulo = document.getElementById("titulo-aviso").value.trim();
+    const contenido = document.getElementById("contenido-aviso").value.trim();
+
+    if (titulo && contenido) {
+        const fecha = new Date();
+        const dia = String(fecha.getDate()).padStart(2, '0');
+        const mes = String(fecha.getMonth() + 1).padStart(2, '0');
+        const año = fecha.getFullYear();
+        const fechaStr = `${dia}/${mes}/${año}`;
+
+        const aviso = document.createElement("div");
+        aviso.className = "mb-2";
+        aviso.innerHTML = `
+            <div class="d-flex justify-content-between align-items-start aviso-text">
+                <div>
+                    <strong>📝 ${fechaStr}:</strong> 
+                    <strong class="titulo">${titulo}</strong> - 
+                    <span class="contenido">${contenido}</span>
+                </div>
+                <div>
+                    <button class="btn btn-sm btn-outline-primary me-1 btn-editar">Editar</button>
+                    <button class="btn btn-sm btn-outline-danger btn-eliminar">Eliminar</button>
+                </div>
+            </div>
+        `;
+
+        // Eventos para editar y eliminar
+        aviso.querySelector(".btn-eliminar").addEventListener("click", function () {
+            aviso.remove();
+        });
+
+        aviso.querySelector(".btn-editar").addEventListener("click", function () {
+            const tituloEl = aviso.querySelector(".titulo");
+            const contenidoEl = aviso.querySelector(".contenido");
+
+            const nuevoTitulo = prompt("Editar título:", tituloEl.textContent);
+            const nuevoContenido = prompt("Editar contenido:", contenidoEl.textContent);
+
+            if (nuevoTitulo !== null && nuevoContenido !== null) {
+                tituloEl.textContent = nuevoTitulo.trim();
+                contenidoEl.textContent = nuevoContenido.trim();
+            }
+        });
+
+        document.getElementById("avisos-lista").prepend(aviso);
+        document.getElementById("form-aviso").reset();
+    }
+});
+</script>
+
+</body>
+
+</html>

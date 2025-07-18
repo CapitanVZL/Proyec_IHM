@@ -10,7 +10,7 @@ form.addEventListener("submit", function (e) {
         window.location.href = "/index.html";
     } else if (email === "propietario@gmail.com" && password === "12345") {
         localStorage.setItem("rol", "propietario");
-        window.location.href = "/index.html";
+        window.location.href = "/propietario/propietario.html";
     } else if (email === "operador@gmail.com" && password === "4321") {
         localStorage.setItem("rol", "operador");
         window.location.href = "/index.html";

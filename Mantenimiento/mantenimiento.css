@@ -1,3 +1,10 @@
+/* --- FUENTES --- */
+
+/* Fuente global para todo el body */
+body {
+    font-family: 'Roboto', sans-serif !important;
+}
+
 /* --- LAYOUT DINÁMICO PARA LA PÁGINA DE MANTENIMIENTO --- */
 
 /* Por defecto, el contenedor deja espacio para el sidebar CERRADO (4rem) */

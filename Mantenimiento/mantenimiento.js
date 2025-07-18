@@ -182,9 +182,16 @@ class MantenimientoManager {
                 descripcion: document.getElementById('task-descripcion').value
             };
 
+            const alertaError = document.getElementById('alerta-error-tarea');
             if (!taskData.titulo || !taskData.ubicacion || !taskData.fechaIncidencia || !taskData.fechaAsignada) {
-                alert('Por favor, completa todos los campos requeridos.');
+                // Mostrar alerta visual
+                alertaError.classList.remove('d-none');
+                setTimeout(() => {
+                    alertaError.classList.add('d-none');
+                }, 3000);
                 return;
+            } else {
+                alertaError.classList.add('d-none');
             }
 
             this.addTask(taskData);
@@ -199,12 +206,19 @@ class MantenimientoManager {
         document.getElementById('btnradio4').addEventListener('change', () => this.renderTasks('completadas'));
 
         // Acciones de las tareas
+        let tareaAEliminar = null;
+        const modalEliminarElement = document.getElementById('modal-confirmar-eliminar');
+        const modalEliminar = new bootstrap.Modal(modalEliminarElement);
+        const btnConfirmarEliminar = document.getElementById('btn-confirmar-eliminar');
+        const modalEliminarBody = modalEliminarElement.querySelector('.modal-body p.fs-5');
+
         tbody.addEventListener('click', (e) => {
             if (e.target.classList.contains('action-btn')) {
                 e.preventDefault();
                 const action = e.target.dataset.action;
                 const row = e.target.closest('tr');
                 const taskId = row.dataset.taskId;
+                const taskTitle = row.querySelector('td').textContent;
 
                 switch (action) {
                     case 'activar':
@@ -214,11 +228,22 @@ class MantenimientoManager {
                         this.updateTaskStatus(taskId, 'completada');
                         break;
                     case 'eliminar':
-                        if (confirm('¿Estás seguro de que quieres eliminar esta tarea?')) {
-                            this.deleteTask(taskId);
+                        tareaAEliminar = taskId;
+                        // Mostrar el nombre de la tarea en el modal
+                        if (modalEliminarBody) {
+                            modalEliminarBody.textContent = `¿Estás seguro de que deseas eliminar la tarea "${taskTitle}"?`;
                         }
+                        modalEliminar.show();
                         break;
                 }
+            }
+        });
+
+        btnConfirmarEliminar.addEventListener('click', () => {
+            if (tareaAEliminar) {
+                this.deleteTask(tareaAEliminar);
+                tareaAEliminar = null;
+                modalEliminar.hide();
             }
         });
     }

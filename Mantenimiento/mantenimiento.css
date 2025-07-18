@@ -36,3 +36,36 @@ body {
     transition: opacity 0.5s ease-out;
     opacity: 0;
 }
+
+/* --- AJUSTES PARA EL MENÚ HAMBURGUESA --- */
+
+/* Forzar líneas del menú hamburguesa y evitar fondo blanco */
+.menu {
+  height: 24px;
+  width: 32px;
+  background: none !important;
+  border: none;
+  box-shadow: none;
+}
+
+.menu span {
+  display: block;
+  height: 2px;
+  width: 24px;
+  margin: 5px 0;
+  background: #888 !important;
+  border-radius: 1px;
+  transition: all 0.3s;
+}
+
+.menu span:not(:first-child) {
+  margin-top: 0;
+}
+
+.menu:focus {
+  outline: none;
+}
+
+.menu-container {
+  background: none !important;
+}

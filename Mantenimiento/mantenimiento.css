@@ -1,23 +1,31 @@
-.container {
-    margin-left: 20rem !important;
-    /* mismo ancho que sidebar */
+/* --- LAYOUT DINÁMICO PARA LA PÁGINA DE MANTENIMIENTO --- */
+
+/* Por defecto, el contenedor deja espacio para el sidebar CERRADO (4rem) */
+.mantenimiento-wrapper {
+    margin-left: 5rem; /* Un poco más del sidebar para que no se pegue */
+    width: calc(100% - 5rem);
     padding: 20px;
-    margin-right: 0px;
-    
-    max-width: calc(100% - 20rem);
+    transition: margin-left 0.5s ease, width 0.5s ease; /* Transición suave */
     box-sizing: border-box;
 }
-body {
-    overflow-x: hidden;
-}
-.card-reducida {
-    max-width: 50rem;
+
+/* Cuando el sidebar se ABRE (tiene la clase .menu-toggle)... */
+.sidebar.menu-toggle ~ .mantenimiento-wrapper {
+    margin-left: 17.75rem; /* ...empujamos el contenido para dejar espacio al sidebar expandido */
+    width: calc(100% - 17.75rem);
 }
 
-.card-reducida .card-body {
-    padding: 10px;
+/* --- ESTILOS ADICIONALES PARA LAS TARJETAS --- */
+
+/* Limita el ancho de las tarjetas para que no se extiendan demasiado en pantallas grandes */
+.card-reducida {
+    max-width: 60rem;
+    margin-left: auto;
+    margin-right: auto;
 }
-.card {
-    width: 100%;
-    overflow-x: auto;
+
+/* Clase para la animación de desvanecimiento que añadiremos con JS */
+.fade-out {
+    transition: opacity 0.5s ease-out;
+    opacity: 0;
 }

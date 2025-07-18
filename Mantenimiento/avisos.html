@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Centro de Avisos</title>
+    <!-- Mismos estilos para consistencia visual -->
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="mantenimiento.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+    <!-- Importar Roboto desde Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap" rel="stylesheet" />
+</head>
+
+<body class="bg-light" style="font-family: 'Roboto', sans-serif !important;">
+
+    <!-- BARRA DE NAVEGACION (Reutilizada) -->
+    <header>
+        <div class="left">
+            <div class="menu-container"><button class="menu" id="menu"><span></span><span></span><span></span></button></div>
+            <div class="brand">
+                <img src="../condominio.avif" alt="Logo" class="logo" />
+                <span class="name">Gestión de condominio</span>
+            </div>
+        </div>
+        <div class="logout"><button class="btn btn-sm btn-light fw-bold" onclick="logout()">Cerrar sesión</button></div>
+    </header>
+
+    <!-- Menú lateral (Estado "selected" en Avisos) -->
+    <div class="sidebar" id="sidebar">
+        <nav>
+            <ul>
+                <li><a href="../index.html"><img src="../icons/home.svg" alt="" /><span>Inicio</span></a></li>
+                <li><a href="mantenimiento.html"><img src="../icons/tools.svg" alt="" /><span>Mantenimiento</span></a></li>
+                <li><a href="calendario.html"><img src="../icons/calendario.svg" alt="" /><span>Calendario</span></a></li>
+                <li><a href="avisos.html" class="selected"><img src="../icons/avisos.svg" alt="" /><span>Avisos</span></a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Contenido Principal: Centro de Avisos -->
+    <div class="container mantenimiento-wrapper py-5" style="margin-top: 50px;">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0">📣 Centro de Avisos</h2>
+            <!-- Botón solo para el admin, oculto por defecto -->
+            <div id="admin-controls" style="display: none;">
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-nuevo-aviso">
+                    <i class="fas fa-plus-circle me-2"></i>Crear Nuevo Aviso
+                </button>
+            </div>
+        </div>
+
+        <!-- Contenedor donde se mostrarán los avisos -->
+        <div id="avisos-container">
+            <!-- Aviso de Ejemplo 1 -->
+            <div class="card card-reducida mx-auto mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Corte de Agua Programado</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Publicado: 15 de Julio, 2024 | <span class="badge bg-danger">Mantenimiento</span></h6>
+                    <p class="card-text">Estimados residentes, les informamos que se realizará un corte programado del suministro de agua el próximo viernes 19 de julio de 8:00 AM a 12:00 PM para realizar reparaciones en la bomba principal. Agradecemos tomar sus previsiones.</p>
+                </div>
+            </div>
+
+            <!-- Aviso de Ejemplo 2 -->
+            <div class="card card-reducida mx-auto mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Jornada de Fumigación</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Publicado: 12 de Julio, 2024 | <span class="badge bg-success">Comunidad</span></h6>
+                    <p class="card-text">Se realizará una jornada de fumigación en todas las áreas comunes el día sábado 20 de julio. Por favor, mantener ventanas cerradas y evitar el tránsito por las áreas verdes durante la mañana.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Crear Nuevo Aviso (Solo para el Admin) -->
+    <div class="modal fade" id="modal-nuevo-aviso" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Publicar un Nuevo Aviso</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-nuevo-aviso">
+                        <div class="mb-3">
+                            <label for="aviso-titulo" class="form-label">Título del Aviso</label>
+                            <input type="text" class="form-control" id="aviso-titulo" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="aviso-contenido" class="form-label">Contenido del Aviso</label>
+                            <textarea class="form-control" id="aviso-contenido" rows="5" required></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="btn-publicar-aviso">Publicar Aviso</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Lógica para mostrar controles de admin
+            const rol = localStorage.getItem('rol');
+            const adminControls = document.getElementById('admin-controls');
+            if (rol === 'admin') {
+                adminControls.style.display = 'block';
+            }
+
+            // Funcionalidad del modal para crear avisos
+            const modalElement = document.getElementById('modal-nuevo-aviso');
+            const modal = new bootstrap.Modal(modalElement);
+            
+            const btnPublicar = document.getElementById('btn-publicar-aviso');
+            const avisosContainer = document.getElementById('avisos-container');
+            const formAviso = document.getElementById('form-nuevo-aviso');
+
+            btnPublicar.addEventListener('click', () => {
+                const titulo = document.getElementById('aviso-titulo').value;
+                const contenido = document.getElementById('aviso-contenido').value;
+
+                if (!titulo || !contenido) {
+                    alert('Por favor, completa todos los campos.');
+                    return;
+                }
+
+                // Crear el HTML para la nueva tarjeta de aviso
+                const nuevoAvisoHTML = `
+                    <div class="card card-reducida mx-auto mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">${titulo}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Publicado: Ahora | <span class="badge bg-primary">Nuevo</span></h6>
+                            <p class="card-text">${contenido.replace(/\n/g, '<br>')}</p>
+                        </div>
+                    </div>
+                `;
+
+                // Añadir el nuevo aviso al principio de la lista
+                avisosContainer.insertAdjacentHTML('afterbegin', nuevoAvisoHTML);
+
+                // Limpiar el formulario y cerrar el modal
+                formAviso.reset();
+                modal.hide();
+            });
+        });
+
+        function logout() {
+            if (confirm("¿Estás seguro de que deseas cerrar la sesión?")) {
+                localStorage.clear();
+                window.location.href = "../inicio/inicio.html";
+            }
+        }
+    </script>
+
+</body>
+</html>

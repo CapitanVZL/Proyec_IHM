@@ -1,163 +1,433 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Gestión de Mantenimiento</title>
-  <link rel="stylesheet" href="/style.css" />
-  <link rel="stylesheet" href="mantenimiento.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <style>
-    .realizada {
-      text-decoration: line-through;
-      color: gray;
-    }
-  </style>
-</head>
-<body class="bg-light">
-
-  <!-- BARRA DE NAVEGACION PRINCIPAL -->
-  <header>
-    <div class="left">
-      <div class="menu-container">
-        <div class="menu" id="menu">
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-      </div>
-
-      <div class="brand">
-        <img src="/condominio.avif" alt="icon-udemy" class="logo" />
-        <span class="name">Gestión de condominio</span>
-      </div>
-    </div>
-
-     <!-- Botón de cerrar sesión -->
-  <div class="logout">
-    <button class="btn  btn-sm" style="background-color: white; font-size: 15px; font-weight: 700;" onclick="logout()">Cerrar sesión </button>
-  </div>
-  </header>
-
-  <!-- Menú lateral para los operadores -->
-  <div class="sidebar" id="sidebar">
-    <nav>
-      <ul>
-        <li>
-          <a href="../index.html" class="selected">
-            <img src="/icons/home.svg" alt="" />
-            <span>Inicio</span>
-          </a>
-        </li>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Calendario de Mantenimiento</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="mantenimiento.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+    <!-- Importar Roboto desde Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap" rel="stylesheet" />
     
-        <li>
-          <a href="calendario.html">
-            <img src="/icons/calendario.svg" alt="" />
-            <span>Calendario</span>
-          </a>
-        </li>
-        <li>
-          <a href="notificaciones.html">
-            <img src="/icons/avisos.svg" alt="" />
-            <span>Avisos</span>
-          </a>
-        </li>
-      </ul>
+    <style>
+        /* Estilos específicos para el calendario */
+        .calendar-table {
+            table-layout: fixed;
+            width: 100%;
+        }
+        
+        .calendar-table th, .calendar-table td {
+            text-align: center;
+            vertical-align: top;
+            padding: 8px;
+            position: relative;
+            width: 14.28%; /* 100% / 7 días */
+        }
+        
+        .calendar-table th {
+            height: 45px;
+            vertical-align: middle;
+        }
+        
+        .calendar-table td {
+            height: 120px; /* Altura fija para todas las celdas */
+            min-height: 120px;
+            max-height: 120px;
+            overflow: hidden;
+        }
+        
+        .calendar-table td .day-number {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .task-container {
+            height: 90px; /* Altura fija para el contenedor de tareas */
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        
+        .calendar-table td .task {
+            font-size: 0.65rem;
+            padding: 1px 3px;
+            border-radius: 3px;
+            display: block;
+            margin-bottom: 1px;
+            color: white;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            line-height: 1.2;
+            height: 16px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .task:hover {
+            transform: scale(1.05);
+            z-index: 10;
+            position: relative;
+            white-space: normal;
+            height: auto;
+            min-height: 16px;
+        }
+        
+        /* Colores según prioridad */
+        .task.alta { background-color: #dc3545; }
+        .task.media { background-color: #fd7e14; }
+        .task.baja { background-color: #198754; }
+        .task.programada { background-color: #0dcaf0; }
+        
+        /* Estilos para navegación del calendario */
+        .calendar-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .nav-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-btn:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .month-year {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .legend {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .legend-item {
+            display: inline-block;
+            margin: 5px 10px;
+            padding: 5px 10px;
+            border-radius: 3px;
+            color: white;
+            font-size: 0.8rem;
+        }
+        
+        .today {
+            background-color: #fff3cd !important;
+            border: 2px solid #ffc107;
+        }
+        
+        .other-month {
+            color: #6c757d;
+            background-color: #f8f9fa;
+        }
+        
+        /* Forzar el color bg-secondary en el encabezado */
+        .calendar-table thead,
+        .calendar-table thead th {
+            background-color: #6c757d !important;
+            color: white !important;
+        }
+        
+        /* Scrollbar personalizada para el contenedor de tareas */
+        .task-container::-webkit-scrollbar {
+            width: 3px;
+        }
+        
+        .task-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        .task-container::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 3px;
+        }
+        
+        .task-container::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+
+<body class="bg-light" style="font-family: 'Roboto', sans-serif !important;">
+
+    <!-- BARRA DE NAVEGACION -->
+    <header>
+        <div class="left">
+            <div class="menu-container"><button class="menu" id="menu"><span></span><span></span><span></span></button></div>
+            <div class="brand">
+                <img src="../condominio.avif" alt="Logo" class="logo" />
+                <span class="name">Gestión de condominio</span>
+            </div>
+        </div>
+        <div class="logout"><button class="btn btn-sm btn-light fw-bold" onclick="logout()">Cerrar sesión</button></div>
+    </header>
+
+    <!-- Menú lateral -->
+    <div class="sidebar" id="sidebar">
+    <nav>
+        <ul>
+            <li>
+                <a href="../index.html">
+                    <img src="../icons/home.svg" alt="Inicio" />
+                    <span>Inicio</span>
+                </a>
+            </li>
+            <li>
+                <a href="mantenimiento.html">
+                    <img src="../icons/tools.svg" alt="Mantenimiento" />
+                    <span>Mantenimiento</span>
+                </a>
+            </li>
+            <li>
+                <a href="calendario.html" class="selected">
+                    <img src="../icons/calendario.svg" alt="Calendario" />
+                    <span>Calendario</span>
+                </a>
+            </li>
+            <li>
+                <a href="avisos.html">
+                    <img src="../icons/avisos.svg" alt="Avisos" />
+                    <span>Avisos</span>
+                </a>
+            </li>
+        </ul>
     </nav>
-  </div>
-
-<div class="container py-6" style="margin-top: 50px;">
-
-  <h2 class="mb-4">👷‍♂️ Módulo Operativo - Mantenimiento</h2>
-
-  <!-- CALENDARIO SIMPLIFICADO -->
-  <div class="card mb-4 card-compact card-reducida">
-    <div class="card-header bg-secondary text-white">📆 Calendario de Mantenimiento</div>
-    <div class="card-body">
-      <table class="table table-bordered text-center">
-        <thead>
-          <tr>
-            <th>Fecha</th>
-            <th>Área</th>
-            <th>Descripción</th>
-            <th>Estado</th>
-            <th>Acción</th>
-          </tr>
-        </thead>
-        <tbody id="tablaTareas">
-          <!-- Filas dinámicas -->
-        </tbody>
-      </table>
     </div>
-  </div>
 
-  <!-- HISTORIAL -->
-  <div class="card card-compact card-reducida">
-    <div class="card-header bg-info text-white">📋 Historial de actividades realizadas</div>
-    <ul class="list-group list-group-flush" id="historial">
-      <!-- Actividades realizadas -->
-    </ul>
-  </div>
+    <!-- Contenido Principal: El Calendario -->
+    <div class="container mantenimiento-wrapper py-5" style="margin-top: 50px;">
+        <h2 class="mb-4">📅 Calendario de Mantenimiento</h2>
 
-</div>
+        <div class="card card-reducida mx-auto">
+            <div class="card-body">
+                <!-- Navegación del calendario -->
+                <div class="calendar-navigation">
+                    <button class="nav-btn" onclick="previousMonth()">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <div class="month-year" id="monthYear"></div>
+                    <button class="nav-btn" onclick="nextMonth()">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
 
-<!-- Bootstrap JS y script funcionalidad para el Mantenimiento -->
-<script>
-  const form = document.getElementById('formTarea');
-  const tabla = document.getElementById('tablaTareas');
-  const historial = document.getElementById('historial');
+                <!-- Tabla del calendario -->
+                <div class="table-responsive">
+                    <table class="table table-bordered calendar-table">
+                        <thead class="bg-secondary text-white">
+                            <tr><th>Lun</th><th>Mar</th><th>Mié</th><th>Jue</th><th>Vie</th><th>Sáb</th><th>Dom</th></tr>
+                        </thead>
+                        <tbody id="calendarBody">
+                            <!-- El calendario se genera dinámicamente aquí -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Leyenda -->
+                <div class="legend">
+                    <strong>Leyenda:</strong>
+                    <span class="legend-item alta">Alta Prioridad</span>
+                    <span class="legend-item media">Media Prioridad</span>
+                    <span class="legend-item baja">Baja Prioridad</span>
+                    <span class="legend-item programada">Programada</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    const inputs = form.querySelectorAll('input');
-    const area = inputs[0].value;
-    const desc = inputs[1].value;
-    const fecha = inputs[2].value;
+    <!-- Scripts -->
+    <script src="../script.js"></script>
+    <script>
+        // Variables globales para el calendario
+        let currentDate = new Date();
+        const monthNames = [
+            'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+            'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+        ];
 
-    const fila = document.createElement('tr');
-    fila.innerHTML = `
-      <td>${fecha}</td>
-      <td>${area}</td>
-      <td>${desc}</td>
-      <td><span class="badge bg-warning text-dark">Pendiente</span></td>
-      <td><button class="btn btn-sm btn-outline-success marcar">✔️ Realizada</button></td>
-    `;
+        // Función para cargar tareas desde localStorage
+        function loadTasks() {
+            const tasks = JSON.parse(localStorage.getItem('mantenimientoTasks')) || [];
+            return tasks;
+        }
 
-    tabla.appendChild(fila);
+        // Función para obtener tareas de un día específico
+        function getTasksForDate(date) {
+            const tasks = loadTasks();
+            const dateStr = date.toISOString().split('T')[0];
+            
+            return tasks.filter(task => {
+                if (task.fechaLimite === dateStr) {
+                    return true;
+                }
+                
+                // Si es una tarea programada, verificar si es recurrente
+                if (task.tipo === 'programada' && task.frecuencia) {
+                    const taskDate = new Date(task.fechaLimite);
+                    const diffTime = Math.abs(date - taskDate);
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                    
+                    switch (task.frecuencia) {
+                        case 'diaria':
+                            return diffDays % 1 === 0;
+                        case 'semanal':
+                            return diffDays % 7 === 0;
+                        case 'mensual':
+                            return date.getDate() === taskDate.getDate();
+                        case 'anual':
+                            return date.getDate() === taskDate.getDate() && 
+                                   date.getMonth() === taskDate.getMonth();
+                    }
+                }
+                
+                return false;
+            });
+        }
 
-    // Reset form
-    form.reset();
-  });
+        // Función para generar el calendario
+        function generateCalendar() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            
+            // Actualizar el título del mes y año
+            document.getElementById('monthYear').textContent = `${monthNames[month]} ${year}`;
+            
+            // Obtener el primer día del mes y el último día
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const daysInMonth = lastDay.getDate();
+            
+            // Obtener el día de la semana del primer día (0 = domingo, 1 = lunes, etc.)
+            let startDay = firstDay.getDay();
+            startDay = startDay === 0 ? 6 : startDay - 1; // Convertir para que lunes sea 0
+            
+            const calendarBody = document.getElementById('calendarBody');
+            calendarBody.innerHTML = '';
+            
+            let date = 1;
+            const today = new Date();
+            
+            // Generar las semanas
+            for (let i = 0; i < 6; i++) {
+                const row = document.createElement('tr');
+                
+                // Generar los días de la semana
+                for (let j = 0; j < 7; j++) {
+                    const cell = document.createElement('td');
+                    
+                    if (i === 0 && j < startDay) {
+                        // Días del mes anterior
+                        const prevMonth = new Date(year, month - 1, 0);
+                        const prevDate = prevMonth.getDate() - (startDay - j - 1);
+                        cell.innerHTML = `<div class="day-number">${prevDate}</div><div class="task-container"></div>`;
+                        cell.classList.add('other-month');
+                    } else if (date > daysInMonth) {
+                        // Días del mes siguiente
+                        const nextDate = date - daysInMonth;
+                        cell.innerHTML = `<div class="day-number">${nextDate}</div><div class="task-container"></div>`;
+                        cell.classList.add('other-month');
+                        date++;
+                    } else {
+                        // Días del mes actual
+                        const currentCellDate = new Date(year, month, date);
+                        
+                        // Verificar si es el día actual
+                        if (currentCellDate.toDateString() === today.toDateString()) {
+                            cell.classList.add('today');
+                        }
+                        
+                        // Crear el contenido del día
+                        let cellContent = `<div class="day-number">${date}</div>`;
+                        let taskContainer = '<div class="task-container">';
+                        
+                        // Obtener tareas para este día
+                        const dayTasks = getTasksForDate(currentCellDate);
+                        
+                        // Agregar tareas al contenedor
+                        dayTasks.forEach(task => {
+                            const taskClass = task.prioridad || 'programada';
+                            const taskElement = `<div class="task ${taskClass}" title="${task.descripcion || task.titulo}">${task.titulo}</div>`;
+                            taskContainer += taskElement;
+                        });
+                        
+                        taskContainer += '</div>';
+                        cellContent += taskContainer;
+                        
+                        cell.innerHTML = cellContent;
+                        date++;
+                    }
+                    
+                    row.appendChild(cell);
+                }
+                
+                calendarBody.appendChild(row);
+                
+                // Si hemos terminado el mes, no necesitamos más filas
+                if (date > daysInMonth) {
+                    break;
+                }
+            }
+        }
 
-  tabla.addEventListener('click', function (e) {
-    if (e.target.classList.contains('marcar')) {
-      const row = e.target.closest('tr');
-      const area = row.children[1].innerText;
-      const desc = row.children[2].innerText;
-      const fecha = row.children[0].innerText;
+        // Función para ir al mes anterior
+        function previousMonth() {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            generateCalendar();
+        }
 
-      // Agregar al historial
-      const item = document.createElement('li');
-      item.className = 'list-group-item realizada';
-      item.textContent = `${fecha} - ${area} - ${desc}`;
-      historial.appendChild(item);
+        // Función para ir al mes siguiente
+        function nextMonth() {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            generateCalendar();
+        }
 
-      // Eliminar de la tabla
-      row.remove();
-    }
-  });
-</script>
+        // Función para el logout
+        function logout() {
+            if (confirm("¿Estás seguro de que deseas cerrar la sesión?")) {
+                localStorage.clear();
+                window.location.href = "../inicio/inicio.html";
+            }
+        }
 
-<!-- Script para la Iteraccion del Menu Desplegable -->
-<script src="/script.js"></script>
+        // Función para actualizar el calendario cuando se añaden nuevas tareas
+        function updateCalendar() {
+            generateCalendar();
+        }
 
-<!-- Script para cerra la sesion  -->
-<script>
-  function logout() {
-    // Aquí puedes limpiar almacenamiento local/session si usas login real
-    window.location.href = "../inicio/inicio.html"; // Cambia por la ruta de tu pantalla de inicio/login
-  }
-</script>
+        // Escuchar cambios en localStorage para actualizar el calendario
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'mantenimientoTasks') {
+                updateCalendar();
+            }
+        });
 
+        // Inicializar el calendario al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            generateCalendar();
+            
+            // Actualizar el calendario cada minuto para mantenerlo sincronizado
+            setInterval(updateCalendar, 60000);
+        });
+    </script>
 </body>
 </html>

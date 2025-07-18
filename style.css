@@ -79,6 +79,23 @@ header {
     transition: all 0.2s ease;
 }
 
+/* Estilos para la leyenda - AÑADIR */
+.legend-item.alta { 
+    background-color: #dc3545; 
+    color: white;
+}
+.legend-item.media { 
+    background-color: #fd7e14; 
+    color: white;
+}
+.legend-item.baja { 
+    background-color: #198754; 
+    color: white;
+}
+.legend-item.programada { 
+    background-color: #0dcaf0; 
+    color: white;
+}
 
 /*Brand*/
 .brand{
@@ -199,4 +216,43 @@ main {
 .logout{
     align-items: center;
     align-content: center;
+}
+.today {
+    background-color: #fff3cd !important;
+    border: 2px solid #ffc107 !important;
+    position: relative;
+}
+
+/* AÑADE estos estilos nuevos: */
+.today .task {
+    position: relative;
+    z-index: 5;
+    margin-bottom: 3px;
+}
+
+.calendar-table td .task {
+    font-size: 0.75rem;
+    padding: 3px 6px;
+    border-radius: 4px;
+    display: block;
+    margin-bottom: 3px;
+    color: white;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.task:hover {
+    transform: scale(1.02);
+    z-index: 10;
+    position: relative;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.calendar-table thead {
+    background-color: var(--bs-secondary) !important;
+    color: white !important;
 }

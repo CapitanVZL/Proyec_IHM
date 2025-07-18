@@ -4,16 +4,29 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Panel del Propietario</title>
-    <link rel="stylesheet" href="propietario.css" />
-    <link rel="stylesheet" href="/style.css">
+    <title>Pagos - Propietario</title>
+
+    <!-- Google Fonts: Roboto -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Tus estilos -->
+    <link rel="stylesheet" href="pagos.css" />
+    <link rel="stylesheet" href="/style.css" />
+
+    <style>
+      /* Aplicar Roboto globalmente */
+      body, button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, span, div, a, label, li {
+        font-family: 'Roboto', sans-serif !important;
+      }
+    </style>
 </head>
 
 <body class="bg-light">
 
-
-    <!-- BARRA DE NAVEGACION PRINCIPAL -->
+    <!-- BARRA DE NAVEGACIÓN -->
     <header>
         <div class="left">
             <div class="menu-container">
@@ -25,79 +38,480 @@
             </div>
 
             <div class="brand">
-                <img src="/condominio.avif" alt="icon-udemy" class="logo" />
+                <img src="/condominio.avif" alt="icon-condominio" class="logo" />
                 <span class="name">Gestión de condominio</span>
             </div>
         </div>
 
-        <!-- Botón de cerrar sesión -->
+        <!-- Botón cerrar sesión -->
         <div class="logout">
-            <button class="btn  btn-sm" style="background-color: white; font-size: 15px; font-weight: 700;"
-                onclick="logout()">Cerrar sesión </button>
+            <button class="btn btn-sm" style="background-color: white; font-size: 15px; font-weight: 700;" onclick="logout()">Cerrar sesión</button>
         </div>
     </header>
 
-    <!-- Menú lateral para los operadores -->
+    <!-- MENÚ LATERAL -->
     <div class="sidebar" id="sidebar">
         <nav>
             <ul>
                 <li>
-                    <a href="/index.html" class="selected">
-                        <img src="/icons/home.svg" alt="" />
+                    <a href="propietario.html">
+                        <img src="/icons/home.svg" alt="Inicio" />
                         <span>Inicio</span>
                     </a>
                 </li>
-
                 <li class="sidebar-item" id="sidebar-pagos">
-                    <a href="pagos.html">
-                        <img src="/icons/pago.svg" alt="" />
+                    <a href="pagos.html" class="selected">
+                        <img src="/icons/pago.svg" alt="Pagos" />
                         <span>Pagos</span>
                     </a>
                 </li>
-
                 <li class="sidebar-item" id="sidebar-cuentas">
-                    <a href="cuentas.html">
-                        <img src="/icons/cuentas.svg" alt="" />
+                    <a href="cuentas.html" alt="Cuentas">
+                        <img src="/icons/cuentas.svg" />
                         <span>Cuentas</span>
                     </a>
                 </li>
                 <li>
                     <a href="calendario.html">
-                        <img src="/icons/calendario.svg" alt="" />
+                        <img src="/icons/calendario.svg" alt="Calendario" />
                         <span>Calendario</span>
                     </a>
                 </li>
                 <li>
                     <a href="avisos.html">
-                        <img src="/icons/avisos.svg" alt="" />
+                        <img src="/icons/avisos.svg" alt="Avisos" />
                         <span>Avisos</span>
                     </a>
                 </li>
+                <li><a href="ajustes.html"><img src="/icons/setting.svg" alt=""><span>Ajustes</span></a></li>
             </ul>
         </nav>
     </div>
 
-
+    <!-- CONTENIDO -->
     <div class="container py-4" style="margin-top: 4rem;">
 
-        <h2 class="mb-4">🧍‍♂️ Panel del Propietario</h2>
+        <h2 class="mb-4">💳 Panel de Pagos</h2>
 
-
-        <!-- PAGOS REALIZADOS -->
-        <div class="card mb-4 card-compact card-reducida">
-            <div class="card-header bg-secondary text-white">💳 Pagos realizados</div>
-            <div class="card-body">
-                <ul class="list-group">
-                    <li class="list-group-item">Pago del 03/06/2025 - $120.000 vía Transferencia</li>
-                    <li class="list-group-item">Pago del 02/05/2025 - $120.000 vía Webpay</li>
-                </ul>
+        <div class="alert alert-warning d-flex align-items-center" style="max-width: 770px;" role="alert">
+            <span class="me-2">⚠️</span>
+            <div>
+                Este mes tienes una deuda pendiente.
             </div>
         </div>
+        <!-- Contenedor flex para filtro y botón -->
+        <div class="d-flex align-items-center mb-3" style="gap: 0.5rem; justify-content: flex-start;">
+
+            <!-- Botón para abrir modal de nuevo pago -->
+            <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#nuevoPagoModal">
+                ➕ Registrar nuevo pago
+            </button>
+
+            <!-- Filtro por mes pequeño a la derecha, con margen-left para separar -->
+            <select id="filtroMes" class="form-select form-select w-auto" style="margin-left: 24rem;">
+                <option value="todos" selected>Todos los meses</option>
+                <option value="01">Enero</option>
+                <option value="02">Febrero</option>
+                <option value="03">Marzo</option>
+                <option value="04">Abril</option>
+                <option value="05">Mayo</option>
+                <option value="06">Junio</option>
+                <option value="07">Julio</option>
+                <option value="08">Agosto</option>
+                <option value="09">Septiembre</option>
+                <option value="10">Octubre</option>
+                <option value="11">Noviembre</option>
+                <option value="12">Diciembre</option>
+            </select>
+        </div>
+
+        <!-- Card de Pagos -->
+<div class="card mb-4 card-compact card-reducida border-0 bg-transparent shadow-0">
+    <div class="card-header bg-secondary text-white text-center">💳 Pagos realizados</div>
+    <div class="card-body bg-transparent">
+        <ul class="list-group" id="lista-pagos" tabindex="0">
+            <!-- Los pagos se insertan por JS -->
+        </ul>
+    </div>
+</div>
+
 
     </div>
 
-    <!-- Script para la Iteraccion del Menu Desplegable -->
-    <script src="/script.js"></script>
+    <!-- Modal para detalles de pago -->
+<div class="modal fade" id="detallePagoModal" tabindex="-1" aria-labelledby="detallePagoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-secondary text-white">
+                <h5 class="modal-title" id="detallePagoModalLabel">Detalle del Pago</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body" id="detallePagoBody">
+                <!-- Aquí se cargan los detalles -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Modal para registrar nuevo pago -->
+<div class="modal fade" id="nuevoPagoModal" tabindex="-1" aria-labelledby="nuevoPagoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <form class="modal-content" id="formNuevoPago" novalidate>
+            <div class="modal-header bg-secondary text-white">
+                <h5 class="modal-title" id="nuevoPagoModalLabel">Registrar Nuevo Pago</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label for="fechaPago" class="form-label">Fecha y hora</label>
+                        <input type="datetime-local" class="form-control" id="fechaPago" required />
+                        <div class="invalid-feedback">Por favor, ingrese fecha y hora válidas.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="montoPago" class="form-label">Monto</label>
+                        <input type="number" class="form-control" id="montoPago" placeholder="$" min="0" required />
+                        <div class="invalid-feedback">Por favor, ingrese un monto válido.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="metodoPago" class="form-label">Método de pago</label>
+                        <select class="form-select" id="metodoPago" required>
+    <option value="" disabled selected>Selecciona método</option>
+    <option value="Pago Móvil">Pago Móvil</option>
+    <option value="Transferencia">Transferencia</option>
+    <option value="Zelle">Zelle</option>
+    <option value="Tarjeta">Tarjeta</option>
+    <option value="Paypal">Paypal</option>
+    <option value="Binance">Binance</option>
+    <option value="Efectivo">Efectivo</option>
+    <option value="Cheque">Cheque</option>
+    <option value="Depósito">Depósito</option>
+</select>
+
+                        <div class="invalid-feedback">Por favor, seleccione un método de pago.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="referenciaPago" class="form-label">Referencia</label>
+                        <input type="text" class="form-control" id="referenciaPago" placeholder="Referencia" disabled />
+                        <div class="invalid-feedback">La referencia es obligatoria para pagos digitales.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="bancoOrigen" class="form-label">Banco Origen</label>
+                        <input type="text" class="form-control" id="bancoOrigen" placeholder="Banco Origen" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="bancoDestino" class="form-label">Banco Destino</label>
+                        <input type="text" class="form-control" id="bancoDestino" placeholder="Banco Destino" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="comprobantePago" class="form-label">Comprobante</label>
+                        <input type="file" class="form-control" id="comprobantePago" accept="image/*,application/pdf" disabled />
+                        <div class="form-text">Solo se requiere comprobante para pagos digitales.</div>
+                        <div class="invalid-feedback">Por favor, suba un comprobante para pagos digitales.</div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-outline-success">Registrar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (Popper incluido) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        const pagos = [
+
+  {
+    id: 1,
+    fecha: "2024-10-01",
+    monto: 120,
+    estado: "Pagado",
+    metodo: "Pago Movil",
+    referencia: "PMV-20241001",
+    bancoOrigen: "Banco Mercantil",
+    bancoDestino: "Banco Provincial",
+    comprobante: "Comprobante1"
+  },
+  {
+    id: 2,
+    fecha: "2024-11-01",
+    monto: 120,
+    estado: "Pagado",
+    metodo: "Tarjeta",
+    referencia: "TARJ-20241101",
+    bancoOrigen: "N/A",
+    bancoDestino: "N/A",
+    comprobante: "N/A"
+  },
+  {
+    id: 3,
+    fecha: "2024-12-01",
+    monto: 120,
+    estado: "Pagado",
+    metodo: "Efectivo",
+    referencia: "EFCT-20241201",
+    bancoOrigen: "N/A",
+    bancoDestino: "N/A",
+    comprobante: "N/A"
+  },
+  {
+    id: 4,
+    fecha: "2025-01-01",
+    monto: 120,
+    estado: "Pagado",
+    metodo: "Binance",
+    referencia: "BIN-20250101",
+    bancoOrigen: "N/A",
+    bancoDestino: "N/A",
+    comprobante: "Comprobante2"
+  },
+  {
+    id: 5,
+    fecha: "2025-02-01",
+    monto: 120,
+    estado: "Pagado",
+    metodo: "Zelle",
+    referencia: "ZL-20250201",
+    bancoOrigen: "N/A",
+    bancoDestino: "N/A",
+    comprobante: "Comprobante3"
+  },
+  {
+    id: 6,
+    fecha: "2025-03-01",
+    monto: 120,
+    estado: "Pagado",
+    metodo: "Deposito",
+    referencia: "DEP-20250301",
+    bancoOrigen: "Banco de Venezuela",
+    bancoDestino: "Banco Bicentenario",
+    comprobante: "N/A"
+  },
+  {
+    id: 7,
+    fecha: "2025-04-01",
+    monto: 120,
+    estado: "Pagado",
+    metodo: "Transferencia",
+    referencia: "TRF-20250401",
+    bancoOrigen: "Banco Banesco",
+    bancoDestino: "Banco Mercantil",
+    comprobante: "Comprobante4"
+  },
+  {
+    id: 8,
+    fecha: "2025-05-01",
+    monto: 120,
+    estado: "Pagado",
+    metodo: "Cheque",
+    referencia: "CHQ-20250501",
+    bancoOrigen: "N/A",
+    bancoDestino: "N/A",
+    comprobante: "N/A"
+  },
+  {
+    id: 9,
+    fecha: "2025-06-01",
+    monto: 120,
+    estado: "Pagado",
+    metodo: "Pago Movil",
+    referencia: "PMV-20250601",
+    bancoOrigen: "Banco Provincial",
+    bancoDestino: "Banco de Venezuela",
+    comprobante: "Comprobante5"
+  },
+  {
+    id: 10,
+    fecha: "2025-07-01",
+    monto: 120,
+    estado: "Pagado",
+    metodo: "Paypal",
+    referencia: "paypal@example.com",
+    bancoOrigen: "N/A",
+    bancoDestino: "N/A",
+    comprobante: "Comprobante6"
+  }
+];
+
+
+
+
+        function formatoMoneda(valor) {
+            return valor.toLocaleString("es-CL", {
+                style: "currency",
+                currency: "CLP",
+                minimumFractionDigits: 0,
+            });
+        }
+
+        // Controlar habilitación de campos comprobante y referencia según método pago
+        function controlarCamposMetodoPago() {
+            const metodo = document.getElementById("metodoPago").value;
+            const campoComprobante = document.getElementById("comprobantePago");
+            const campoReferencia = document.getElementById("referenciaPago");
+
+            const pagosDigitales = ["Pago Móvil", "Transferencia", "Zelle", "Paypal", "Binance"];
+
+
+            if (pagosDigitales.includes(metodo)) {
+                campoComprobante.disabled = false;
+                campoComprobante.required = true;
+                campoReferencia.disabled = false;
+                campoReferencia.required = true;
+            } else {
+                campoComprobante.disabled = true;
+                campoComprobante.required = false;
+                campoComprobante.value = "";
+                campoReferencia.disabled = true;
+                campoReferencia.required = false;
+                campoReferencia.value = "";
+            }
+        }
+
+        // Renderizar la lista de pagos filtrados
+        function renderizarLista(filtroMes = "todos") {
+            const listaPagos = document.getElementById("lista-pagos");
+            listaPagos.innerHTML = "";
+
+            // Filtrar pagos por mes si es necesario
+            const pagosFiltrados = pagos.filter(pago => {
+    const fechaPago = new Date(pago.fecha);
+    const desdeOctubre2024 = new Date("2024-10-01T00:00");
+    const cumpleFecha = fechaPago >= desdeOctubre2024;
+
+    if (filtroMes === "todos") {
+        return cumpleFecha;
+    } else {
+        const mesPago = fechaPago.getMonth() + 1;
+        return cumpleFecha && mesPago === parseInt(filtroMes);
+    }
+});
+
+
+            // Crear elementos li para cada pago filtrado
+            pagosFiltrados.forEach(pago => {
+                const li = document.createElement("li");
+                li.className = "list-group-item";
+                li.setAttribute("data-id", pago.id);
+                li.setAttribute("role", "button");
+                li.setAttribute("tabindex", "0");
+
+                // Clase según estado
+                if (pago.estado === "Pagado") {
+                    li.textContent = `✅ Pago del ${new Date(pago.fecha).toLocaleDateString()} - ${formatoMoneda(pago.monto)} vía ${pago.metodo}`;
+                } else if (pago.estado === "En revisión") {
+                    li.textContent = `⏳ Pago del ${new Date(pago.fecha).toLocaleDateString()} - ${formatoMoneda(pago.monto)} vía ${pago.metodo} (En revisión)`;
+                } else {
+                    li.textContent = `Pago del ${new Date(pago.fecha).toLocaleDateString()} - ${formatoMoneda(pago.monto)} vía ${pago.metodo}`;
+                }
+
+                li.addEventListener("click", () => mostrarDetallePago(pago.id));
+
+                listaPagos.appendChild(li);
+            });
+        }
+
+        // Mostrar detalle del pago en modal
+        function mostrarDetallePago(id) {
+            const pago = pagos.find(p => p.id === id);
+            if (!pago) return;
+
+            let contenido = `
+                <p><strong>Fecha y hora:</strong> ${new Date(pago.fecha).toLocaleString()}</p>
+                <p><strong>Monto:</strong> ${formatoMoneda(pago.monto)}</p>
+                <p><strong>Método:</strong> ${pago.metodo}</p>
+                <p><strong>Referencia:</strong> ${pago.referencia || "No disponible"}</p>
+                <p><strong>Banco Origen:</strong> ${pago.bancoOrigen}</p>
+                <p><strong>Banco Destino:</strong> ${pago.bancoDestino}</p>
+                <p><strong>Estado:</strong> ${pago.estado}</p>
+                <p><strong>Comprobante:</strong> ${pago.comprobante === "N/A" ? "No disponible" : `<a href="${pago.comprobante}" target="_blank">Ver comprobante</a>`}</p>
+            `;
+
+            document.getElementById("detallePagoBody").innerHTML = contenido;
+
+            const detalleModal = new bootstrap.Modal(document.getElementById("detallePagoModal"));
+            detalleModal.show();
+        }
+
+        // Al cargar la página
+        document.addEventListener("DOMContentLoaded", () => {
+            renderizarLista();
+
+            // Cambiar filtro
+            document.getElementById("filtroMes").addEventListener("change", (e) => {
+                renderizarLista(e.target.value);
+            });
+
+            // Controlar campos comprobante y referencia al cambiar método
+            document.getElementById("metodoPago").addEventListener("change", controlarCamposMetodoPago);
+
+            // Registrar nuevo pago
+            document.getElementById("formNuevoPago").addEventListener("submit", (e) => {
+                e.preventDefault();
+
+                // Validación básica de Bootstrap
+                const form = e.target;
+                if (!form.checkValidity()) {
+                    e.stopPropagation();
+                    form.classList.add('was-validated');
+                    return;
+                }
+
+                const fecha = document.getElementById("fechaPago").value;
+                const monto = parseFloat(document.getElementById("montoPago").value);
+                const metodo = document.getElementById("metodoPago").value;
+                const referencia = document.getElementById("referenciaPago").value.trim() || "";
+                const bancoOrigen = document.getElementById("bancoOrigen").value || "N/A";
+                const bancoDestino = document.getElementById("bancoDestino").value || "N/A";
+
+                const comprobanteInput = document.getElementById("comprobantePago");
+                let comprobante = "N/A";
+                if (!comprobanteInput.disabled && comprobanteInput.files.length > 0) {
+                    comprobante = comprobanteInput.files[0].name;
+                }
+
+                const nuevoId = pagos.length + 1;
+                const nuevoPago = {
+                    id: nuevoId,
+                    fecha,
+                    monto,
+                    metodo,
+                    referencia,
+                    bancoOrigen,
+                    bancoDestino,
+                    estado: "En revisión",
+                    comprobante,
+                };
+
+                pagos.push(nuevoPago);
+
+                renderizarLista(document.getElementById("filtroMes").value);
+
+                form.reset();
+                form.classList.remove('was-validated');
+
+                const modalNuevoPago = bootstrap.Modal.getInstance(document.getElementById("nuevoPagoModal"));
+                modalNuevoPago.hide();
+            });
+        });
+
+        function logout() {
+            alert("Cerrar sesión");
+        }
+    </script>
 
 </body>
 

@@ -4,16 +4,26 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Panel del Propietario</title>
-    <link rel="stylesheet" href="propietario.css" />
-    <link rel="stylesheet" href="/style.css">
+    <title>Calendario de Mantenimiento - Propietario</title>
+
+    <!-- Google Fonts: Roboto -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="calendario.css" />
+    <link rel="stylesheet" href="/style.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+        /* Aplicar Roboto globalmente */
+        body, button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, span, div, a, label, li {
+            font-family: 'Roboto', sans-serif !important;
+        }
+    </style>
 </head>
 
 <body class="bg-light">
 
-
-    <!-- BARRA DE NAVEGACION PRINCIPAL -->
+    <!-- BARRA DE NAVEGACIÓN PRINCIPAL -->
     <header>
         <div class="left">
             <div class="menu-container">
@@ -25,94 +35,109 @@
             </div>
 
             <div class="brand">
-                <img src="/condominio.avif" alt="icon-udemy" class="logo" />
+                <img src="/condominio.avif" alt="icon-condominio" class="logo" />
                 <span class="name">Gestión de condominio</span>
             </div>
         </div>
 
-        <!-- Botón de cerrar sesión -->
         <div class="logout">
-            <button class="btn  btn-sm" style="background-color: white; font-size: 15px; font-weight: 700;"
-                onclick="logout()">Cerrar sesión </button>
+            <button class="btn btn-sm" style="background-color: white; font-size: 15px; font-weight: 700;"
+                onclick="logout()">Cerrar sesión</button>
         </div>
     </header>
 
-    <!-- Menú lateral para los operadores -->
+    <!-- MENÚ LATERAL -->
     <div class="sidebar" id="sidebar">
         <nav>
             <ul>
                 <li>
-                    <a href="/index.html" class="selected">
-                        <img src="/icons/home.svg" alt="" />
+                    <a href="propietario.html">
+                        <img src="/icons/home.svg" alt="icono inicio" />
                         <span>Inicio</span>
                     </a>
                 </li>
-
-                <li class="sidebar-item" id="sidebar-pagos">
+                <li>
                     <a href="pagos.html">
-                        <img src="/icons/pago.svg" alt="" />
+                        <img src="/icons/pago.svg" alt="icono pagos" />
                         <span>Pagos</span>
                     </a>
                 </li>
-
-                <li class="sidebar-item" id="sidebar-cuentas">
+                <li>
                     <a href="cuentas.html">
-                        <img src="/icons/cuentas.svg" alt="" />
+                        <img src="/icons/cuentas.svg" alt="icono cuentas" />
                         <span>Cuentas</span>
                     </a>
                 </li>
                 <li>
-                    <a href="calendario.html">
-                        <img src="/icons/calendario.svg" alt="" />
+                    <a href="calendario.html" class="selected">
+                        <img src="/icons/calendario.svg" alt="icono calendario" />
                         <span>Calendario</span>
                     </a>
                 </li>
                 <li>
                     <a href="avisos.html">
-                        <img src="/icons/avisos.svg" alt="" />
+                        <img src="/icons/avisos.svg" alt="icono avisos" />
                         <span>Avisos</span>
                     </a>
                 </li>
+                <li><a href="ajustes.html"><img src="/icons/setting.svg" alt=""><span>Ajustes</span></a></li>
             </ul>
         </nav>
     </div>
 
+    <!-- CONTENIDO PRINCIPAL -->
+    <div class="container py-4" style="margin-top: 4rem; max-width: 45rem;">
+        <h2 class="mb-4">🗓️ Calendario de Mantenimientos</h2>
 
-    <div class="container py-4" style="margin-top: 4rem;">
-
-        <h2 class="mb-4">🧍‍♂️ Panel del Propietario</h2>
-
-        <!-- CALENDARIO DE MANTENIMIENTO (Solo lectura) -->
-        <div class="card mb-4 card-compact card-reducida">
-            <div class="card-header bg-secondary text-white">📆 Calendario de mantenimiento (solo lectura)</div>
-            <div class="card-body">
-                <table class="table table-hover text-center">
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Actividad</th>
-                            <th>Área</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>19/07/2025</td>
-                            <td>Revisión bombas de agua</td>
-                            <td>Subterráneo</td>
-                        </tr>
-                        <tr>
-                            <td>25/07/2025</td>
-                            <td>Mantenimiento ascensor</td>
-                            <td>Torre A</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
+       <div class="card card-reducida">
+  <div class="card-header bg-secondary text-white text-center">🛠️ Próximas actividades programadas</div>
+  <div class="card-body">
+    <div class="mb-3 p-3 bg-white rounded shadow-sm">
+      <strong>📅 19/07/2025</strong>
+      <p class="mb-1">🔧 Revisión bombas de agua</p>
+      <small>📍 Área: Subterráneo</small>
     </div>
+    <div class="mb-3 p-3 bg-white rounded shadow-sm">
+      <strong>📅 25/07/2025</strong>
+      <p class="mb-1">🔧 Mantenimiento ascensor</p>
+      <small>📍 Área: Torre A</small>
+    </div>
+    <div class="mb-3 p-3 bg-white rounded shadow-sm">
+      <strong>📅 02/08/2025</strong>
+      <p class="mb-1">🧹 Limpieza de áreas comunes</p>
+      <small>📍 Área: Lobby y pasillos</small>
+    </div>
+    <div class="mb-3 p-3 bg-white rounded shadow-sm">
+      <strong>📅 15/08/2025</strong>
+      <p class="mb-1">💡 Revisión sistema eléctrico</p>
+      <small>📍 Área: Torre B y Torre C</small>
+    </div>
+    <div class="mb-3 p-3 bg-white rounded shadow-sm">
+      <strong>📅 22/08/2025</strong>
+      <p class="mb-1">🚿 Inspección y limpieza de tanques de agua</p>
+      <small>📍 Área: Azotea</small>
+    </div>
+    <div class="mb-3 p-3 bg-white rounded shadow-sm">
+      <strong>📅 05/09/2025</strong>
+      <p class="mb-1">🌳 Podas y mantenimiento de jardines</p>
+      <small>📍 Área: Jardines y exteriores</small>
+    </div>
+    <div class="mb-3 p-3 bg-white rounded shadow-sm">
+      <strong>📅 18/09/2025</strong>
+      <p class="mb-1">🔥 Revisión y mantenimiento de extintores</p>
+      <small>📍 Área: Todas las torres</small>
+    </div>
+    <div class="mb-3 p-3 bg-white rounded shadow-sm">
+      <strong>📅 01/10/2025</strong>
+      <p class="mb-1">🚪 Reparación de puertas principales</p>
+      <small>📍 Área: Entrada principal</small>
+    </div>
+  </div>
+</div>
 
-    <!-- Script para la Iteraccion del Menu Desplegable -->
+
+
+    <!-- Script del menú -->
     <script src="/script.js"></script>
 
 </body>

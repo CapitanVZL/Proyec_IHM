@@ -5,7 +5,7 @@ body {
 
 /* Ajuste de container con margen a la izquierda */
 .container {
-    margin-left: 15rem !important;
+    margin-left: 21rem !important;
     padding: 2rem;
     margin-right: 0;
     max-width: calc(100% - 20rem);
@@ -31,7 +31,6 @@ body {
     font-size: 1.2rem;
     font-weight: bold;
     color: #000000;
-    background-color: #fde246 !important;
     padding: 0.75rem 1.25rem;
     border-bottom: 1px solid #f0f0f0;
 }
@@ -54,9 +53,10 @@ body {
 /* Para que se vea bien el título principal */
 h2.mb-4 {
     font-weight: 750;
+    margin-left: 13rem !important;
     color: #000000;
     padding-bottom: 0.5rem;
-    margin-bottom: 2rem;
+    margin-bottom: 4rem;
 }
 
 /* Responsive: ajusta cuando la pantalla sea pequeña */
@@ -71,47 +71,3 @@ h2.mb-4 {
         max-width: 1%;
     }
 }
-
-.card-icon {
-    width: 50px;
-    height: 50px;
-    object-fit: contain;
-    margin-right: 10px;
-}
-
-.section-title {
-    font-size: 1.8rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-}
-
-.profile-avatar {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-right: 15px;
-}
-
-.btn-rounded {
-    border-radius: 20px;
-}
-
-.info-label {
-    font-weight: 600;
-    font-size: 0.9rem;
-}
-
-.card-summary {
-    transition: transform 0.2s ease;
-}
-
-.card-summary:hover {
-    transform: scale(1.02);
-}
-
-.sidebar {
-    display: block !important;
-}
-
-
